@@ -33,4 +33,4 @@ This fork includes several changes and enhancements compared to the upstream pro
 For a detailed changelog or specific commit history, review the repository or contact the maintainers.
 
 ### License
-This project inherits the license from the upstream repository. See the LICENSE file for details.
+This project inherits the license from the upstream repository. See the LICENSE file for details
