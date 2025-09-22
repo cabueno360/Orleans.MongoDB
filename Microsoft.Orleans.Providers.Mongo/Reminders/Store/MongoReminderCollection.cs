@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Driver;
@@ -10,6 +10,15 @@ using Orleans.Providers.MongoDB.Reminders.Store;
 
 namespace Microsoft.Orleans.Providers.Mongo.Reminders.Store
 {
+    internal sealed class MongoReminderProjection
+    {
+        public string Etag { get; set; }
+        public string GrainId { get; set; }
+        public TimeSpan Period { get; set; }
+        public string ReminderName { get; set; }
+        public DateTime StartAt { get; set; }
+    }
+
     public class MongoReminderCollection : CollectionBase<MongoReminderDocument>
     {
         private static readonly FindOneAndUpdateOptions<MongoReminderDocument> FindAndUpsert = new FindOneAndUpdateOptions<MongoReminderDocument> { IsUpsert = true };
@@ -72,9 +81,24 @@ namespace Microsoft.Orleans.Providers.Mongo.Reminders.Store
                         x.ServiceId == serviceId &&
                         x.GrainHash > beginHash &&
                         x.GrainHash <= endHash)
+                    .Project(x => new MongoReminderProjection
+                    {
+                        Etag = x.Etag,
+                        GrainId = x.GrainId,
+                        Period = x.Period,
+                        ReminderName = x.ReminderName,
+                        StartAt = x.StartAt
+                    })
                     .ToListAsync();
 
-            return new ReminderTableData(reminders.Select(x => x.ToEntry()));
+            return new ReminderTableData(reminders.Select(x => new ReminderEntry
+            {
+                ETag = x.Etag,
+                GrainId = GrainId.Parse(x.GrainId),
+                Period = x.Period,
+                ReminderName = x.ReminderName,
+                StartAt = x.StartAt
+            }));
         }
 
         public virtual async Task<ReminderEntry> ReadRow(GrainId grainId, string reminderName)
@@ -84,9 +108,24 @@ namespace Microsoft.Orleans.Providers.Mongo.Reminders.Store
                         x.ServiceId == serviceId &&
                         x.GrainId == grainId.ToString() &&
                         x.ReminderName == reminderName)
+                    .Project(x => new MongoReminderProjection
+                    {
+                        Etag = x.Etag,
+                        GrainId = x.GrainId,
+                        Period = x.Period,
+                        ReminderName = x.ReminderName,
+                        StartAt = x.StartAt
+                    })
                     .FirstOrDefaultAsync();
 
-            return reminder?.ToEntry();
+            return reminder == null ? null : new ReminderEntry
+            {
+                ETag = reminder.Etag,
+                GrainId = GrainId.Parse(reminder.GrainId),
+                Period = reminder.Period,
+                ReminderName = reminder.ReminderName,
+                StartAt = reminder.StartAt
+            };
         }
 
         public virtual async Task<ReminderTableData> ReadReminderRowsAsync(GrainId grainId)
@@ -95,9 +134,24 @@ namespace Microsoft.Orleans.Providers.Mongo.Reminders.Store
                 await Collection.Find(x =>
                         x.ServiceId == serviceId &&
                         x.GrainId == grainId.ToString())
+                    .Project(x => new MongoReminderProjection
+                    {
+                        Etag = x.Etag,
+                        GrainId = x.GrainId,
+                        Period = x.Period,
+                        ReminderName = x.ReminderName,
+                        StartAt = x.StartAt
+                    })
                     .ToListAsync();
 
-            return new ReminderTableData(reminders.Select(x => x.ToEntry()));
+            return new ReminderTableData(reminders.Select(x => new ReminderEntry
+            {
+                ETag = x.Etag,
+                GrainId = GrainId.Parse(x.GrainId),
+                Period = x.Period,
+                ReminderName = x.ReminderName,
+                StartAt = x.StartAt
+            }));
         }
 
         public virtual async Task<ReminderTableData> ReadRowsOutRange(uint beginHash, uint endHash)
@@ -106,9 +160,24 @@ namespace Microsoft.Orleans.Providers.Mongo.Reminders.Store
                 await Collection.Find(x =>
                         (x.ServiceId == serviceId) &&
                         (x.GrainHash > beginHash || x.GrainHash <= endHash))
+                    .Project(x => new MongoReminderProjection
+                    {
+                        Etag = x.Etag,
+                        GrainId = x.GrainId,
+                        Period = x.Period,
+                        ReminderName = x.ReminderName,
+                        StartAt = x.StartAt
+                    })
                     .ToListAsync();
 
-            return new ReminderTableData(reminders.Select(x => x.ToEntry()));
+            return new ReminderTableData(reminders.Select(x => new ReminderEntry
+            {
+                ETag = x.Etag,
+                GrainId = GrainId.Parse(x.GrainId),
+                Period = x.Period,
+                ReminderName = x.ReminderName,
+                StartAt = x.StartAt
+            }));
         }
 
         public virtual async Task<ReminderTableData> ReadRow(GrainId grainId)
@@ -117,9 +186,24 @@ namespace Microsoft.Orleans.Providers.Mongo.Reminders.Store
                 await Collection.Find(r =>
                         r.ServiceId == serviceId &&
                         r.GrainId == grainId.ToString())
+                    .Project(x => new MongoReminderProjection
+                    {
+                        Etag = x.Etag,
+                        GrainId = x.GrainId,
+                        Period = x.Period,
+                        ReminderName = x.ReminderName,
+                        StartAt = x.StartAt
+                    })
                     .ToListAsync();
 
-            return new ReminderTableData(reminders.Select(x => x.ToEntry()));
+            return new ReminderTableData(reminders.Select(x => new ReminderEntry
+            {
+                ETag = x.Etag,
+                GrainId = GrainId.Parse(x.GrainId),
+                Period = x.Period,
+                ReminderName = x.ReminderName,
+                StartAt = x.StartAt
+            }));
         }
 
         public async Task<bool> RemoveRow(GrainId grainId, string reminderName, string eTag)
