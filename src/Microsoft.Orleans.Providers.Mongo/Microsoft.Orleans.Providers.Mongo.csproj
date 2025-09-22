@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net9.0</TargetFrameworks>
+    <Company>Flowbiz.Flowbiz.Orleans.Providers.Mongo</Company>
+    <Description>MongoDB-based providers for Microsoft Orleans: grain storage (IGrainStorage), reminders (IReminderTable), and clustering via membership table (IMembershipTable) and gateway list provider (IGatewayListProvider).</Description>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+<PropertyGroup>
+		<PackageId>Microsoft.Orleans.Providers.Mongo</PackageId>
+		<PackageIcon>orleans_logo.png</PackageIcon>
+		<Version>8.2.0.0</Version>
+		<Authors>Carlos Bueno</Authors>
+		<RepositoryUrl>https://github.com/cabueno360/Orleans.MongoDB</RepositoryUrl>
+    <PackageTags>Orleans;Microsoft Orleans;MongoDB;Orleans Providers;Grain Storage;Reminders;Clustering;Membership Table;Gateway List Provider;IGrainStorage;IReminderTable;IMembershipTable;.NET 9;Orleans 9</PackageTags>
+    <Description>MongoDB providers for Microsoft Orleans. Includes grain storage, reminders, and clustering (membership table and gateway list provider), with extension methods for easy silo/client configuration. Targets Orleans 9.x and .NET 9.</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/cabueno360/Orleans.Client.Multiple</PackageProjectUrl>
+	</PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.Sdk" Version="9.2.1" />
+    <PackageReference Include="Microsoft.Orleans.Reminders" Version="9.2.1" />
+    <!-- <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference> -->
+    <PackageReference Include="MongoDB.Driver" Version="3.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="OrleansLogo.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+
+</Project>
