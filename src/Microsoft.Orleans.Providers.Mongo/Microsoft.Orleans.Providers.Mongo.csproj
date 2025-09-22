@@ -11,7 +11,7 @@
   </PropertyGroup>
 <PropertyGroup>
 		<PackageId>Orleans.Providers.Mongo</PackageId>
-    <PackageIcon>OrleansLogo.png</PackageIcon>
+    <PackageIcon>orleans_logo.png</PackageIcon>
 		<Version>8.2.0.0</Version>
 		<Authors>Carlos Bueno</Authors>
 		<RepositoryUrl>https://github.com/cabueno360/Orleans.MongoDB</RepositoryUrl>
